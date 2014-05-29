@@ -8,12 +8,16 @@
     store/IReadBucket
     (store/get [this k]
       (.get h k))
+    (store/batch-get [this k-seq]
+      (store/default-batch-get this k-seq))
     (store/exists? [this k] 
       (.containsKey h k))
 
     store/IWriteBucket
     (store/put! [this k v]
       (.put h k v))
+    (store/batch-put! [this kv-seq]
+      (store/default-batch-put! this kv-seq))
 
     store/IDeleteBucket
     (store/delete! [this k]

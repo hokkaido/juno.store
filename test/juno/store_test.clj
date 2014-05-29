@@ -14,7 +14,14 @@
   (is (= 1 (-> b (store/get "k2") :a)))
   (store/put! b "k2" 2)
   (is (= 2 (store/get b "k2")))
-  (is (nil? (store/get b "dne"))))
+  (is (nil? (store/get b "dne")))
+  (let [batch {"k3" 3
+               "k4" 4
+               "k5" 5}]
+  (store/batch-put! b batch)
+  (is (= batch (into {} (store/batch-get b ["k3"
+                                            "k4"
+                                            "k5"]))))))
 
 
 (deftest mem-bucket-test
