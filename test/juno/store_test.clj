@@ -1,7 +1,8 @@
 (ns juno.store-test
   (:require [clojure.test :refer :all]
             [juno.store :as store]
-            [juno.store.mem :as mem-store]))
+            [juno.store.mem :as mem-store]
+            [juno.store.fs :as fs-store]))
 
 
 (defn generic-bucket-test [b]
@@ -23,6 +24,11 @@
                                             "k4"
                                             "k5"]))))))
 
-
 (deftest mem-bucket-test
   (generic-bucket-test (store/bucket {:type :mem})))
+
+(deftest fs-bucket-test
+  (generic-bucket-test
+    (store/bucket {:type :fs
+                  :path (.getAbsolutePath (java.io.File. "store-fs-test-dir"))}))
+  (.deleteOnExit (java.io.File. "store-fs-test-dir")))
